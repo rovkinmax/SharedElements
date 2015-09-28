@@ -3,8 +3,9 @@ package com.example.evgenykhramov.sharedelementtransition;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
+import android.transition.TransitionSet;
 import android.view.Window;
 
 public class FragmentActivity2 extends Activity {
@@ -15,31 +16,24 @@ public class FragmentActivity2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fm_activity2);
 
+        TransitionSet set = new TransitionSet();
+        set.setOrdering(TransitionSet.ORDERING_TOGETHER);
+        Transition textSize = new TextSizeTransition();
+        textSize.addTarget(R.id.textView);
+        textSize.addTarget("textView");
+        set.addTransition(textSize);
+
+        Transition changeBounds = new ChangeBounds();
+        changeBounds.addTarget("textView");
+        changeBounds.addTarget("robot");
+        set.addTransition(changeBounds);
+
+        getWindow().setSharedElementEnterTransition(set);
+        setEnterSharedElementCallback(new EnterSharedElementCallback(40, 45));
+
         Fragment fragment = new Fragment2();
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -11,6 +11,14 @@ import java.util.List;
  * @author Rovkin Max
  */
 public class EnterSharedElementCallback extends SharedElementCallback {
+    private int mStartTextSize;
+    private int mEndTextSize;
+
+    public EnterSharedElementCallback(int startTextSize, int endTextSize) {
+        mStartTextSize = startTextSize;
+        mEndTextSize = endTextSize;
+    }
+
     @Override
     public void onSharedElementStart(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
         TextView textView = getTextView(sharedElementNames, sharedElements);
@@ -18,7 +26,7 @@ public class EnterSharedElementCallback extends SharedElementCallback {
             return;
         }
 
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mStartTextSize);
     }
 
     @Override
@@ -32,7 +40,7 @@ public class EnterSharedElementCallback extends SharedElementCallback {
         int oldHeight = textView.getMeasuredHeight();
 
         // Setup the TextView's end values.
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mEndTextSize);
 
         // Re-measure the TextView (since the text size has changed).
         int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);

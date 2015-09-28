@@ -26,7 +26,7 @@ public class MainActivity2 extends Activity {
         set.addTransition(changeBounds);
 
         getWindow().setSharedElementEnterTransition(set);
-        setEnterSharedElementCallback(new EnterSharedElementCallback());
+        setEnterSharedElementCallback(new EnterSharedElementCallback(14, 35));
     }
 
     @Override
